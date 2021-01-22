@@ -21,6 +21,7 @@ title: {{name}}
 {% if exists("summary") -%}
 summary: {{summary}}
 {% endif -%}
+layout: docs
 {% include "meta" %}
 ---
 
