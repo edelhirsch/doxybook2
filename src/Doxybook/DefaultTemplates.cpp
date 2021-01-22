@@ -26,7 +26,6 @@ layout: docs
 ---
 
 {% if exists("title") -%}
-# {{title}}
 {% else if exists("kind") and kind != "page" -%}
 # {{name}} {{title(kind)}} Reference
 {% endif %}
