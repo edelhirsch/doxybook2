@@ -11,7 +11,7 @@
 
 static bool isKindAllowedLanguage(const std::string& kind) {
     static std::set<std::string> values = {
-        "namespace",
+//        "namespace",
         "class",
         "struct",
         "interface",
