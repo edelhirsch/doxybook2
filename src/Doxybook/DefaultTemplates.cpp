@@ -845,11 +845,6 @@ static const std::string TEMPLATE_KIND_CLASS =
 
 {%- include "class_members_tables" -%}
 
-{% if hasAdditionalMembers %}## Additional inherited members
-
-{% include "class_members_inherited_tables" %}
-{% endif -%}
-
 {% if hasDetails %}## Detailed Description
 
 ```cpp{% if exists("templateParams") %}
