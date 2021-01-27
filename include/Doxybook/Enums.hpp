@@ -28,7 +28,9 @@ namespace Doxybook2 {
         SIGNAL,
         SLOT,
         PROPERTY,
-        EVENT
+        EVENT,
+        QSK_SUBCONTROL,
+        QSK_STATE,
     };
 
     enum class Visibility { PUBLIC, PROTECTED, PRIVATE, PACKAGE };
@@ -52,7 +54,9 @@ namespace Doxybook2 {
         SIGNALS,
         SLOTS,
         EVENTS,
-        PROPERTIES
+        PROPERTIES,
+        QSK_SUBCONTROLS,
+        QSK_STATES,
     };
 
     enum class FolderCategory { CLASSES, NAMESPACES, MODULES, PAGES, FILES, EXAMPLES };

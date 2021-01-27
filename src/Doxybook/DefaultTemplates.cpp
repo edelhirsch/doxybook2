@@ -505,6 +505,8 @@ static std::string createBaseTable() {
     std::stringstream ss;
     ss << "{% for base in baseClasses -%}\n";
     ss << createForVisibilities(createTableForClassStripLike, "Classes", "classes", true);
+    ss << createForVisibilities(createTableForAttributeLike, "Subcontrols", "subcontrols", true);
+    ss << createForVisibilities(createTableForAttributeLike, "States", "states", true);
     ss << createForVisibilities(createTableForTypeLike, "Types", "types", true);
     ss << createForVisibilities(createTableForFunctionLike, "Slots", "slots", true);
     ss << createForVisibilities(createTableForFunctionLike, "Signals", "signals", true);
@@ -522,6 +524,8 @@ static std::string createMemberTable() {
     std::stringstream ss;
 
     ss << createForVisibilities(createTableForClassStripLike, "Classes", "classes", false);
+    ss << createForVisibilities(createTableForAttributeLike, "Subcontrols", "subcontrols", false);
+    ss << createForVisibilities(createTableForAttributeLike, "States", "states", false);
     ss << createForVisibilities(createTableForTypeLike, "Types", "types", false);
     ss << createForVisibilities(createTableForFunctionLike, "Slots", "slots", false);
     ss << createForVisibilities(createTableForFunctionLike, "Signals", "signals", false);
@@ -569,6 +573,8 @@ static std::string createNonMemberTable() {
 
     ss << createTableForNamespaceLike("public", "Namespaces", "namespaces", false);
     ss << createTableForClassLike("public", "Classes", "publicClasses", false);
+    ss << createTableForAttributeLike("public", "Subcontrols", "publicSubcontrols", false);
+    ss << createTableForAttributeLike("public", "States", "publicStates", false);
     ss << createTableForTypeLike("public", "Types", "publicTypes", false);
     ss << createTableForFunctionLike("public", "Slots", "publicSlots", false);
     ss << createTableForFunctionLike("public", "Signals", "publicSignals", false);
@@ -690,6 +696,23 @@ static const std::string TEMPLATE_NONCLASS_MEMBERS_DETAILS =
 
 {{ render("member_details", child) }}
 {% endfor %}{% endif %}
+
+
+{% if exists("publicSubcontrols") %}## Public Subcontrols Documentation
+
+{% for child in publicSubcontrols %}### {{child.kind}} {{child.name}}
+
+{{ render("member_details", child) }}
+{% endfor %}{% endif %}
+
+{% if exists("publicStates") %}## Public States Documentation
+
+{% for child in publicStates %}### {{child.kind}} {{child.name}}
+
+{{ render("member_details", child) }}
+{% endfor %}{% endif %}
+
+
 {% if exists("defines") %}## Macro Documentation
 
 {% for child in defines %}### {{child.kind}} {{child.name}}
@@ -792,6 +815,20 @@ static const std::string TEMPLATE_CLASS_MEMBERS_DETAILS =
 {% if exists("protectedAttributes") %}## Protected Attributes Documentation
 
 {% for child in protectedAttributes %}### {{child.kind}} {{child.name}}
+
+{{ render("member_details", child) }}
+{% endfor %}{% endif -%}
+
+{% if exists("publicSubcontrols") %}## Public Subcontrols Documentation
+
+{% for child in publicSubcontrols %}### {{child.kind}} {{child.name}}
+
+{{ render("member_details", child) }}
+{% endfor %}{% endif -%}
+
+{% if exists("publicStates") %}## Public States Documentation
+
+{% for child in publicStates %}### {{child.kind}} {{child.name}}
 
 {{ render("member_details", child) }}
 {% endfor %}{% endif -%}

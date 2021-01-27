@@ -81,6 +81,20 @@ Doxybook2::Node::parse(NodeCacheMap& cache, const std::string& inputDir, const N
                     child->kind = Kind::USING;
                 }
             }
+
+            const auto type = memberdef.firstChildElement("type");
+            if (child->kind == Kind::VARIABLE && type && type.hasText()) {
+                const auto typeText = type.getText();
+                if (typeText.find("const QskAspect::Subcontrol") == 0) {
+                    child->kind = Kind::QSK_SUBCONTROL;
+                    child->type = Type::QSK_SUBCONTROLS;
+                }
+                else if (typeText.find("const QskAspect::State") == 0) {
+                    child->kind = Kind::QSK_STATE;
+                    child->type = Type::QSK_STATES;
+                }
+            }
+
             ptr->children.push_back(child);
 
             if (isGroupOrFile) {
@@ -266,6 +280,14 @@ void Doxybook2::Node::parseBaseInfo(const Xml::Element& element) {
         }
         case Kind::PROPERTY: {
             type = Type::PROPERTIES;
+            break;
+        }
+        case Kind::QSK_SUBCONTROL: {
+            type = Type::QSK_SUBCONTROLS;
+            break;
+        }
+        case Kind::QSK_STATE: {
+            type = Type::QSK_STATES;
             break;
         }
         default: {

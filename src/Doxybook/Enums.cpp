@@ -32,7 +32,9 @@ static const std::vector<KindStrPair> KIND_STRS = {
     {"slot", Doxybook2::Kind::SLOT},
     {"property", Doxybook2::Kind::PROPERTY},
     {"event", Doxybook2::Kind::EVENT},
-    {"define", Doxybook2::Kind::DEFINE}
+    {"define", Doxybook2::Kind::DEFINE},
+    {"subcontrol", Doxybook2::Kind::QSK_SUBCONTROL},
+    {"state", Doxybook2::Kind::QSK_STATE},
 };
 
 static const std::vector<TypeStrPair> TYPE_STRS = {
@@ -51,7 +53,9 @@ static const std::vector<TypeStrPair> TYPE_STRS = {
     {"signals", Doxybook2::Type::SIGNALS},
     {"slots", Doxybook2::Type::SLOTS},
     {"events", Doxybook2::Type::EVENTS},
-    {"properties", Doxybook2::Type::PROPERTIES}
+    {"properties", Doxybook2::Type::PROPERTIES},
+    {"subcontrols", Doxybook2::Type::QSK_SUBCONTROLS},
+    {"states", Doxybook2::Type::QSK_STATES},
 };
 
 static const std::vector<VirtualStrPair> VIRTUAL_STRS = {
@@ -183,7 +187,9 @@ bool Doxybook2::isKindLanguage(const Kind kind) {
         case Doxybook2::Kind::SIGNAL:
         case Doxybook2::Kind::SLOT:
         case Doxybook2::Kind::PROPERTY:
-        case Doxybook2::Kind::EVENT: {
+        case Doxybook2::Kind::EVENT:
+        case Doxybook2::Kind::QSK_SUBCONTROL:
+        case Doxybook2::Kind::QSK_STATE: {
             return true;
         }
         default: {
