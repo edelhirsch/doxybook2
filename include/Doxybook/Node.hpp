@@ -207,6 +207,14 @@ namespace Doxybook2 {
             return anchor;
         }
 
+        const std::string& getSkinletName() const {
+            return skinletName;
+        }
+
+        const std::string& getSkinletUrl() const {
+            return skinletUrl;
+        }
+
         void finalize(const Config& config,
             const TextPrinter& plainPrinter,
             const TextPrinter& markdownPrinter,
@@ -246,6 +254,8 @@ namespace Doxybook2 {
         Visibility visibility{Visibility::PUBLIC};
         Virtual virt{Virtual::NON_VIRTUAL};
         std::string url;
+        std::string skinletName;
+        std::string skinletUrl;
         std::string anchor;
 
         void parseBaseInfo(const Xml::Element& element);

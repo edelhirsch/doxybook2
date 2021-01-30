@@ -16,6 +16,16 @@ public:
     XmlTextParser::Node brief;
 };
 
+namespace {
+    bool endsWith(std::string const &fullString, std::string const &ending) {
+        if (fullString.length() >= ending.length()) {
+            return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+        } else {
+            return false;
+        }
+    }
+}
+
 static Doxybook2::NodePtr findInCache(Doxybook2::NodeCacheMap& cache, const std::string& refid) {
     const auto found = cache.find(refid);
     if (found != cache.end()) {
@@ -388,6 +398,20 @@ void Doxybook2::Node::finalize(const Config& config,
         const auto it = cache.find(Utils::stripAnchor(refid));
         if (it != cache.end() && it->second->getKind() == Kind::MODULE && it->second.get() != this) {
             group = it->second.get();
+        }
+    }
+
+    // Link to skinlet if available
+    if(!endsWith(refid, "_skinlet") && skinletUrl.empty()) {
+        auto skinletId = refid + "_skinlet";
+        auto skinlet = cache.find(skinletId);
+        if(skinlet != cache.end()) {
+            auto s = skinlet->second.get();
+            skinletName = s->getName();
+            skinletUrl = urlMaker(config, *skinlet->second);
+            if (config.linkLowercase)
+                skinletUrl = Utils::toLower(skinletUrl);
+            Log::i("@@@ Found skinlet {} {} for class {}", skinletName, skinletUrl, refid);
         }
     }
 

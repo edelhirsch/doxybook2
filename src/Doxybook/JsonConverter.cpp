@@ -121,6 +121,10 @@ nlohmann::json Doxybook2::JsonConverter::convert(const Node& node) const {
         json["baseClasses"] = convert(node.getBaseClasses());
     if (!node.getDerivedClasses().empty())
         json["derivedClasses"] = convert(node.getDerivedClasses());
+    if (!node.getSkinletName().empty())
+        json["skinletName"] = node.getSkinletName();
+    if (!node.getSkinletUrl().empty())
+        json["skinletUrl"] = node.getSkinletUrl();
     return json;
 }
 

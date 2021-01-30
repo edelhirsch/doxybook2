@@ -879,6 +879,10 @@ static const std::string TEMPLATE_KIND_CLASS =
 
 {% endif -%}
 
+{%- if exists("skinletUrl") %}Corresponding skinlet: [{{skinletName}}]({{skinletUrl}})
+
+{% endif -%}
+
 {%- include "class_members_tables" -%}
 
 {% if hasDetails %}## Detailed Description
