@@ -125,6 +125,10 @@ nlohmann::json Doxybook2::JsonConverter::convert(const Node& node) const {
         json["skinletName"] = node.getSkinletName();
     if (!node.getSkinletUrl().empty())
         json["skinletUrl"] = node.getSkinletUrl();
+    if (!node.getReverseSkinletName().empty())
+        json["reverseSkinletName"] = node.getReverseSkinletName();
+    if (!node.getReverseSkinletUrl().empty())
+        json["reverseSkinletUrl"] = node.getReverseSkinletUrl();
     return json;
 }
 

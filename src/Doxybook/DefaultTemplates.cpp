@@ -879,7 +879,11 @@ static const std::string TEMPLATE_KIND_CLASS =
 
 {% endif -%}
 
-{%- if exists("skinletUrl") %}Corresponding skinlet: [{{skinletName}}]({{skinletUrl}})
+{%- if exists("skinletUrl") %}Is drawn by [{{skinletName}}]({{skinletUrl}})
+
+{% endif -%}
+
+{%- if exists("reverseSkinletUrl") %}Draws [{{reverseSkinletName}}]({{reverseSkinletUrl}})
 
 {% endif -%}
 

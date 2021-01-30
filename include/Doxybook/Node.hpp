@@ -215,6 +215,14 @@ namespace Doxybook2 {
             return skinletUrl;
         }
 
+        const std::string& getReverseSkinletName() const {
+            return reverseSkinletName;
+        }
+
+        const std::string& getReverseSkinletUrl() const {
+            return reverseSkinletUrl;
+        }
+
         void finalize(const Config& config,
             const TextPrinter& plainPrinter,
             const TextPrinter& markdownPrinter,
@@ -256,6 +264,8 @@ namespace Doxybook2 {
         std::string url;
         std::string skinletName;
         std::string skinletUrl;
+        std::string reverseSkinletName;
+        std::string reverseSkinletUrl;
         std::string anchor;
 
         void parseBaseInfo(const Xml::Element& element);

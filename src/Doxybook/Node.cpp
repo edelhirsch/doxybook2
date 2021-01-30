@@ -402,7 +402,19 @@ void Doxybook2::Node::finalize(const Config& config,
     }
 
     // Link to skinlet if available
-    if(!endsWith(refid, "_skinlet") && skinletUrl.empty()) {
+    if(endsWith(refid, "_skinlet") && reverseSkinletUrl.empty()) {
+        auto classId = refid;
+        classId = classId.replace(classId.find("_skinlet"), sizeof("_skinlet") - 1, "");
+        auto classForSkinlet = cache.find(classId);
+        if(classForSkinlet != cache.end()) {
+            auto c = classForSkinlet->second.get();
+            reverseSkinletName = c->getName();
+            reverseSkinletUrl = urlMaker(config, *classForSkinlet->second);
+            if (config.linkLowercase)
+                reverseSkinletUrl = Utils::toLower(reverseSkinletUrl);
+            Log::i("@@@ Found class {} {} for skinlet {}", reverseSkinletName, reverseSkinletUrl, refid);
+        }
+    } else if(!endsWith(refid, "_skinlet") && skinletUrl.empty()) {
         auto skinletId = refid + "_skinlet";
         auto skinlet = cache.find(skinletId);
         if(skinlet != cache.end()) {
