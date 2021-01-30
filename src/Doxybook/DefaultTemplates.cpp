@@ -508,10 +508,10 @@ static std::string createBaseTable() {
     ss << createForVisibilities(createTableForAttributeLike, "Subcontrols", "subcontrols", true);
     ss << createForVisibilities(createTableForAttributeLike, "States", "states", true);
     ss << createForVisibilities(createTableForTypeLike, "Types", "types", true);
-    ss << createForVisibilities(createTableForFunctionLike, "Slots", "slots", true);
-    ss << createForVisibilities(createTableForFunctionLike, "Signals", "signals", true);
-    ss << createForVisibilities(createTableForFunctionLike, "Events", "events", true);
     ss << createForVisibilities(createTableForFunctionLike, "Functions", "functions", true);
+    ss << createForVisibilities(createTableForFunctionLike, "Signals", "signals", true);
+    ss << createForVisibilities(createTableForFunctionLike, "Slots", "slots", true);
+    ss << createForVisibilities(createTableForFunctionLike, "Events", "events", true);
     ss << createForVisibilities(createTableForAttributeLike, "Properties", "properties", true);
     ss << createForVisibilities(createTableForAttributeLike, "Attributes", "attributes", true);
     ss << createTableForFriendLike("Friends", "friends", true);
@@ -527,10 +527,10 @@ static std::string createMemberTable() {
     ss << createForVisibilities(createTableForAttributeLike, "Subcontrols", "subcontrols", false);
     ss << createForVisibilities(createTableForAttributeLike, "States", "states", false);
     ss << createForVisibilities(createTableForTypeLike, "Types", "types", false);
-    ss << createForVisibilities(createTableForFunctionLike, "Slots", "slots", false);
-    ss << createForVisibilities(createTableForFunctionLike, "Signals", "signals", false);
-    ss << createForVisibilities(createTableForFunctionLike, "Events", "events", false);
     ss << createForVisibilities(createTableForFunctionLike, "Functions", "functions", false);
+    ss << createForVisibilities(createTableForFunctionLike, "Signals", "signals", false);
+    ss << createForVisibilities(createTableForFunctionLike, "Slots", "slots", false);
+    ss << createForVisibilities(createTableForFunctionLike, "Events", "events", false);
     ss << createForVisibilities(createTableForAttributeLike, "Properties", "properties", false);
     ss << createForVisibilities(createTableForAttributeLike, "Attributes", "attributes", false);
     ss << createTableForFriendLike("Friends", "friends", false);
@@ -576,9 +576,9 @@ static std::string createNonMemberTable() {
     ss << createTableForAttributeLike("public", "Subcontrols", "publicSubcontrols", false);
     ss << createTableForAttributeLike("public", "States", "publicStates", false);
     ss << createTableForTypeLike("public", "Types", "publicTypes", false);
-    ss << createTableForFunctionLike("public", "Slots", "publicSlots", false);
-    ss << createTableForFunctionLike("public", "Signals", "publicSignals", false);
     ss << createTableForFunctionLike("public", "Functions", "publicFunctions", false);
+    ss << createTableForFunctionLike("public", "Signals", "publicSignals", false);
+    ss << createTableForFunctionLike("public", "Slots", "publicSlots", false);
     ss << createTableForAttributeLike("public", "Attributes", "publicAttributes", false);
     ss << createTableForDefineLike("public", "Defines", "defines", false);
 
@@ -678,27 +678,7 @@ friend {% if exists("typePlain") %}{{typePlain}} {% endif -%}
 {% include "details" -%})";
 
 static const std::string TEMPLATE_NONCLASS_MEMBERS_DETAILS =
-    R"({% if exists("publicTypes") %}## Types Documentation
-
-{% for child in publicTypes %}### {{child.kind}} {{child.name}}
-
-{{ render("member_details", child) }}
-{% endfor %}{% endif %}
-{% if exists("publicFunctions") %}## Functions Documentation
-
-{% for child in publicFunctions %}### {{child.kind}} {{child.name}}
-
-{{ render("member_details", child) }}
-{% endfor %}{% endif %}
-{% if exists("publicAttributes") %}## Attributes Documentation
-
-{% for child in publicAttributes %}### {{child.kind}} {{child.name}}
-
-{{ render("member_details", child) }}
-{% endfor %}{% endif %}
-
-
-{% if exists("publicSubcontrols") %}## Public Subcontrols Documentation
+    R"({% if exists("publicSubcontrols") %}## Public Subcontrols Documentation
 
 {% for child in publicSubcontrols %}### {{child.kind}} {{child.name}}
 
@@ -712,6 +692,25 @@ static const std::string TEMPLATE_NONCLASS_MEMBERS_DETAILS =
 {{ render("member_details", child) }}
 {% endfor %}{% endif %}
 
+{% if exists("publicTypes") %}## Types Documentation
+
+{% for child in publicTypes %}### {{child.kind}} {{child.name}}
+
+{{ render("member_details", child) }}
+{% endfor %}{% endif %}
+
+{% if exists("publicFunctions") %}## Functions Documentation
+
+{% for child in publicFunctions %}### {{child.kind}} {{child.name}}
+
+{{ render("member_details", child) }}
+{% endfor %}{% endif %}
+{% if exists("publicAttributes") %}## Attributes Documentation
+
+{% for child in publicAttributes %}### {{child.kind}} {{child.name}}
+
+{{ render("member_details", child) }}
+{% endfor %}{% endif %}
 
 {% if exists("defines") %}## Macro Documentation
 
@@ -721,7 +720,21 @@ static const std::string TEMPLATE_NONCLASS_MEMBERS_DETAILS =
 {% endfor %}{% endif %})";
 
 static const std::string TEMPLATE_CLASS_MEMBERS_DETAILS =
-    R"({% if exists("publicTypes") %}## Public Types Documentation
+    R"({% if exists("publicSubcontrols") %}## Public Subcontrols Documentation
+
+{% for child in publicSubcontrols %}### {{child.kind}} {{child.name}}
+
+{{ render("member_details", child) }}
+{% endfor %}{% endif -%}
+
+{% if exists("publicStates") %}## Public States Documentation
+
+{% for child in publicStates %}### {{child.kind}} {{child.name}}
+
+{{ render("member_details", child) }}
+{% endfor %}{% endif -%}
+
+{% if exists("publicTypes") %}## Public Types Documentation
 
 {% for child in publicTypes %}### {{child.kind}} {{child.name}}
 
@@ -735,16 +748,16 @@ static const std::string TEMPLATE_CLASS_MEMBERS_DETAILS =
 {{ render("member_details", child) }}
 {% endfor %}{% endif -%}
 
-{% if exists("publicSlots") %}## Public Slots Documentation
+{% if exists("publicFunctions") %}## Public Functions Documentation
 
-{% for child in publicSlots %}### {{child.kind}} {{child.name}}
+{% for child in publicFunctions %}### {{child.kind}} {{child.name}}
 
 {{ render("member_details", child) }}
 {% endfor %}{% endif -%}
 
-{% if exists("protectedSlots") %}## Protected Slots Documentation
+{% if exists("protectedFunctions") %}## Protected Functions Documentation
 
-{% for child in protectedSlots %}### {{child.kind}} {{child.name}}
+{% for child in protectedFunctions %}### {{child.kind}} {{child.name}}
 
 {{ render("member_details", child) }}
 {% endfor %}{% endif -%}
@@ -763,6 +776,20 @@ static const std::string TEMPLATE_CLASS_MEMBERS_DETAILS =
 {{ render("member_details", child) }}
 {% endfor %}{% endif -%}
 
+{% if exists("publicSlots") %}## Public Slots Documentation
+
+{% for child in publicSlots %}### {{child.kind}} {{child.name}}
+
+{{ render("member_details", child) }}
+{% endfor %}{% endif -%}
+
+{% if exists("protectedSlots") %}## Protected Slots Documentation
+
+{% for child in protectedSlots %}### {{child.kind}} {{child.name}}
+
+{{ render("member_details", child) }}
+{% endfor %}{% endif -%}
+
 {% if exists("publicEvents") %}## Public Events Documentation
 
 {% for child in publicEvents %}### {{child.kind}} {{child.name}}
@@ -773,20 +800,6 @@ static const std::string TEMPLATE_CLASS_MEMBERS_DETAILS =
 {% if exists("protectedEvents") %}## Protected Events Documentation
 
 {% for child in protectedEvents %}### {{child.kind}} {{child.name}}
-
-{{ render("member_details", child) }}
-{% endfor %}{% endif -%}
-
-{% if exists("publicFunctions") %}## Public Functions Documentation
-
-{% for child in publicFunctions %}### {{child.kind}} {{child.name}}
-
-{{ render("member_details", child) }}
-{% endfor %}{% endif -%}
-
-{% if exists("protectedFunctions") %}## Protected Functions Documentation
-
-{% for child in protectedFunctions %}### {{child.kind}} {{child.name}}
 
 {{ render("member_details", child) }}
 {% endfor %}{% endif -%}
@@ -815,20 +828,6 @@ static const std::string TEMPLATE_CLASS_MEMBERS_DETAILS =
 {% if exists("protectedAttributes") %}## Protected Attributes Documentation
 
 {% for child in protectedAttributes %}### {{child.kind}} {{child.name}}
-
-{{ render("member_details", child) }}
-{% endfor %}{% endif -%}
-
-{% if exists("publicSubcontrols") %}## Public Subcontrols Documentation
-
-{% for child in publicSubcontrols %}### {{child.kind}} {{child.name}}
-
-{{ render("member_details", child) }}
-{% endfor %}{% endif -%}
-
-{% if exists("publicStates") %}## Public States Documentation
-
-{% for child in publicStates %}### {{child.kind}} {{child.name}}
 
 {{ render("member_details", child) }}
 {% endfor %}{% endif -%}
