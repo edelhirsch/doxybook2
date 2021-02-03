@@ -348,7 +348,7 @@ static std::string createTableForTypeLike(const std::string& visibility,
     ss << "{% for enumvalue in child.enumvalues -%}\n";
     ss << "{{enumvalue.name}}";
     ss << "{% if existsIn(enumvalue, \"initializer\") %} {{enumvalue.initializer}}{% endif -%}\n";
-    ss << "{% if not loop.is_last %}, {% endif %}{% endfor -%}\n }";
+    ss << "{% if not loop.is_last %}<br />{% endif %}{% endfor -%}\n }";
     ss << "{% endif -%}\n";
     ss << "{% if existsIn(child, \"brief\") %}<br>{{child.brief}}{% endif %} |\n";
 
