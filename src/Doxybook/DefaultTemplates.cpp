@@ -47,16 +47,19 @@ static const std::string TEMPLATE_DETAILS =
     R"({% if exists("brief") %}{{brief}}
 {% endif -%}
 
+{% if exists("details") %}
+{{details}}
+
+{% endif -%}
+
 {% if exists("paramList") %}
 **Parameters**: 
-
 {% for param in paramList %}  * **{{param.name}}** {{param.text}}
 {% endfor %}
 {% endif -%}
 
 {% if exists("returnsList") %}
 **Returns**: 
-
 {% for param in returnsList %}  * **{{param.name}}** {{param.text}}
 {% endfor %}
 {% endif -%}
@@ -89,7 +92,7 @@ static const std::string TEMPLATE_DETAILS =
 {% endif -%}
 
 {% if exists("returns") %}
-**Return**: {% if length(returns) == 1 %}{{first(returns)}}{% else %}
+**Returns**: {% if length(returns) == 1 %}{{first(returns)}}{% else %}
 
 {% for item in returns %}  * {{item}}
 {% endfor %}{% endif %}
@@ -224,15 +227,10 @@ static const std::string TEMPLATE_DETAILS =
 
 {% endif -%}
 
-{% if exists("details") %}
-{{details}}
-
-{% endif -%}
-
 {% if exists("inbody") %}
 {{inbody}}
 
-{% endif -%})";
+{% endif -%}<br /><br />)";
 
 static std::string createTableIfInherited(const std::string& visibility,
     const std::string& title,
