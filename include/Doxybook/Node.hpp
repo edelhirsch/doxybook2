@@ -179,6 +179,10 @@ namespace Doxybook2 {
             return summary;
         }
 
+        const std::string& getInheritanceDiagram() const {
+            return inheritance_diagram;
+        }
+
         const std::string& getTitle() const {
             return title;
         }
@@ -252,6 +256,7 @@ namespace Doxybook2 {
         std::string brief;
         std::string summary;
         std::string title;
+        std::string inheritance_diagram;
         Node* parent{nullptr};
         Node* group{nullptr};
         Children children;

@@ -115,6 +115,8 @@ nlohmann::json Doxybook2::JsonConverter::convert(const Node& node) const {
         json["brief"] = node.getBrief();
     if (!node.getSummary().empty())
         json["summary"] = node.getSummary();
+    if (!node.getInheritanceDiagram().empty())
+        json["inheritanceDiagram"] = node.getInheritanceDiagram();
     json["kind"] = toStr(node.getKind());
     json["category"] = toStr(node.getType());
     if (!node.getBaseClasses().empty())

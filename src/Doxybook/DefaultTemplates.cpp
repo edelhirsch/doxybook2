@@ -870,6 +870,11 @@ static const std::string TEMPLATE_KIND_CLASS =
 
 {% endif -%}
 
+{% if exists("inheritanceDiagram") %}
+![Inheritance diagram](../svg/{{ inheritanceDiagram }})
+
+{% endif -%}
+
 {%- if exists("baseClasses") %}Inherits from {% for child in baseClasses %}{% if existsIn(child, "url") %}[{{child.name}}]({{child.url}}){% else %}{{child.name}}{% endif %}{% if not loop.is_last %}, {% endif %}{% endfor %}
 
 {% endif -%}

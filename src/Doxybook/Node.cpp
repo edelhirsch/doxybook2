@@ -10,6 +10,7 @@
 #include <functional>
 #include <iostream>
 #include <unordered_map>
+#include <filesystem>
 
 class Doxybook2::Node::Temp {
 public:
@@ -73,6 +74,16 @@ Doxybook2::Node::parse(NodeCacheMap& cache, const std::string& inputDir, const N
     ptr->name = assertChild(compounddef, "compoundname").getText();
     ptr->kind = toEnumKind(compounddef.getAttr("kind"));
     ptr->empty = false;
+
+    auto diagram1 = ptr->name + "__inherit__graph_org.svg";
+    auto diagram2 = ptr->name + "__inherit__graph.svg";
+
+    if (std::filesystem::exists("html/class" + diagram1)) {
+        ptr->inheritance_diagram = "class" + diagram1;
+    } else if (std::filesystem::exists("html/class" + diagram2)) {
+        ptr->inheritance_diagram = "class" + diagram2;
+    }
+
     cache.insert(std::make_pair(ptr->refid, ptr));
 
     // Inner members such as functions
