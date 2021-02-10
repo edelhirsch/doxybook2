@@ -157,7 +157,7 @@ void Doxybook2::TextMarkdownPrinter::print(PrintData& data,
             break;
         }
         case XmlTextParser::Node::Type::VERBATIM: {
-            data.ss << "\n\n```\n";
+            data.ss << "\n\n";
             data.eol = false;
             break;
         }
@@ -367,7 +367,7 @@ void Doxybook2::TextMarkdownPrinter::print(PrintData& data,
             break;
         }
         case XmlTextParser::Node::Type::VERBATIM: {
-            data.ss << "```\n\n";
+            data.ss << "\n\n";
             data.eol = true;
             break;
         }
