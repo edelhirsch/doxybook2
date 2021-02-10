@@ -231,6 +231,8 @@ static const std::string TEMPLATE_DETAILS =
 {{inbody}}
 
 {% endif -%}
+<br /><br />
+
 )";
 
 static std::string createTableIfInherited(const std::string& visibility,
