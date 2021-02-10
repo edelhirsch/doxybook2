@@ -938,18 +938,6 @@ static const std::string TEMPLATE_KIND_GROUP =
 static const std::string TEMPLATE_KIND_FILE =
     R"({% include "header" -%}
 
-{% if exists("brief") %}{{brief}}{% endif %}{% if hasDetails %} [More...](#detailed-description)
-
-{% endif -%}
-
-{% include "nonclass_members_tables" -%}
-
-{% if hasDetails %}## Detailed Description
-
-{% include "details" %}{% endif -%}
-
-{% include "nonclass_members_details" -%}
-
 {% if exists("programlisting")%}## Source code
 
 ```cpp
@@ -1122,8 +1110,8 @@ std::unordered_map<std::string, Doxybook2::DefaultTemplate> Doxybook2::defaultTe
         TEMPLATE_KIND_FILE,
         {
             "header",
-            "nonclass_members_tables",
-            "nonclass_members_details",
+//            "nonclass_members_tables",
+//            "nonclass_members_details",
             "footer"
         }
     }},
