@@ -603,18 +603,14 @@ template <{% for param in templateParams %}{{param.typePlain}} {{param.name}}{% 
 {% if virtual %}virtual {% endif -%}
 
 {% if exists("typePlain") %}{{typePlain}} {% endif %}{{name}}{% if length(params) > 0 -%}
-(
-{% for param in params %}    {{param.typePlain}} {{param.name}}{% if existsIn(param, "defvalPlain") %} ={{param.defvalPlain}}{% endif -%}
-{% if not loop.is_last %},{% endif %}
-{% endfor -%}
-){% else -%}
-(){% endif -%}
+({% for param in params %} {{param.typePlain}} {{param.name}}{% if existsIn(param, "defvalPlain") %} = {{param.defvalPlain}}{% endif -%}
+{% if not loop.is_last %},{% endif %} {% endfor -%}){% else -%} (){% endif -%}
 
 {% if const %} const{% endif -%}
 {% if override %} override{% endif -%}
-{% if default %} =default{% endif -%}
-{% if deleted %} =deleted{% endif -%}
-{% if pureVirtual %} =0{% endif %}
+{% if default %} = default{% endif -%}
+{% if deleted %} = deleted{% endif -%}
+{% if pureVirtual %} = 0{% endif %}
 ```{% endif -%}
 
 {% if kind == "enum" -%}
