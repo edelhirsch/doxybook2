@@ -618,11 +618,16 @@ template <{% for param in templateParams %}{{param.typePlain}} {{param.name}}{% 
 ```{% endif -%}
 
 {% if kind == "enum" -%}
-| Enumerator | Value | Description |
-| ---------- | ----- | ----------- |
-{% for enumvalue in enumvalues %}| {{enumvalue.name}} | {% if existsIn(enumvalue, "initializer") -%}
+{% for enumvalue in enumvalues %}
+| Enumerator | Value |
+| ---------- | ----- |
+| **{{enumvalue.name}}** | {% if existsIn(enumvalue, "initializer") -%}
 {{replace(enumvalue.initializer, "= ", "")}}{% endif -%}
-| {% if existsIn(enumvalue, "brief") %}{{enumvalue.brief}}{% endif %} {% if existsIn(enumvalue, "details") %}{{enumvalue.details}}{% endif %} |
+{% if existsIn(enumvalue, "brief") %}
+{{enumvalue.brief}}{% endif %}
+
+{% if existsIn(enumvalue, "details") %}{{enumvalue.details}}{% endif %}
+
 {% endfor %}
 {% endif -%}
 
