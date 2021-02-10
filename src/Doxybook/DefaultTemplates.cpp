@@ -84,17 +84,17 @@ static const std::string TEMPLATE_DETAILS =
 {{deprecated}}
 {% endif -%}
 
-{% if exists("see") %}
-**See**: {% if length(see) == 1 %}{{first(see)}}{% else %}
-
-{% for item in see %}  * {{item}}
-{% endfor %}{% endif %}
-{% endif -%}
-
 {% if exists("returns") %}
 **Returns**: {% if length(returns) == 1 %}{{first(returns)}}{% else %}
 
 {% for item in returns %}  * {{item}}
+{% endfor %}{% endif %}
+{% endif -%}
+
+{% if exists("see") %}
+**See also**: {% if length(see) == 1 %}{{first(see)}}{% else %}
+
+{% for item in see %}  * {{item}}
 {% endfor %}{% endif %}
 {% endif -%}
 
