@@ -230,7 +230,8 @@ static const std::string TEMPLATE_DETAILS =
 {% if exists("inbody") %}
 {{inbody}}
 
-{% endif -%}<br /><br />)";
+{% endif -%}
+)";
 
 static std::string createTableIfInherited(const std::string& visibility,
     const std::string& title,
