@@ -59,6 +59,7 @@ nlohmann::json Doxybook2::JsonConverter::convert(const Node::ClassReferences& kl
 nlohmann::json Doxybook2::JsonConverter::convert(const Node::Location& location) const {
     nlohmann::json json;
     json["file"] = location.file;
+    json["url"] = location.url;
     json["line"] = location.line;
     json["column"] = location.column;
     if (location.bodyStart > 0)

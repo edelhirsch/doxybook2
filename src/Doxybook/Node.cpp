@@ -550,7 +550,13 @@ Doxybook2::Node::Data Doxybook2::Node::loadData(const Config& config,
         data.location.file = locationElement.getAttr("file", "");
         data.location.line = std::stoi(locationElement.getAttr("line", "0"));
         data.location.column = std::stoi(locationElement.getAttr("column", "0"));
-        data.location.bodyFile = locationElement.getAttr("bodyfile", "");
+        auto bodyFile = locationElement.getAttr("bodyfile", "");
+        bodyFile = std::filesystem::path(bodyFile).filename();
+        data.location.bodyFile = bodyFile;
+        if(bodyFile.find(".") != std::string::npos) {
+            bodyFile.replace(bodyFile.find("."), 1, "_8");
+        }
+        data.location.url = "../../files/" + bodyFile; // ### hack without urlMaker etc.
         data.location.bodyStart = std::stoi(locationElement.getAttr("bodystart", "0"));
         data.location.bodyEnd = std::stoi(locationElement.getAttr("bodyend", "0"));
     }

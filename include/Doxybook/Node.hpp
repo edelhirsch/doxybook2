@@ -29,6 +29,7 @@ namespace Doxybook2 {
 
         struct Location {
             std::string file;
+            std::string url;
             int line{0};
             int column{0};
             std::string bodyFile;

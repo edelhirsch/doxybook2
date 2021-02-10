@@ -231,6 +231,11 @@ static const std::string TEMPLATE_DETAILS =
 {{inbody}}
 
 {% endif -%}
+
+{% if exists("location.bodyFile") %}
+Defined in [{{location.bodyFile}}]({{location.url}}) in line {{location.line}}.
+{% endif -%}
+
 <br /><br />
 
 )";
