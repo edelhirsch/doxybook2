@@ -880,7 +880,8 @@ static const std::string TEMPLATE_KIND_CLASS =
 {% endif -%}
 
 {% if exists("inheritanceDiagram") %}
-![Inheritance diagram](../svg/{{ inheritanceDiagram }})
+<object type="image/svg+xml" data="../svg/{{ inheritanceDiagram }}">
+</object>
 
 {% endif -%}
 
