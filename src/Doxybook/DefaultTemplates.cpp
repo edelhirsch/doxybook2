@@ -631,6 +631,21 @@ template <{% for param in templateParams %}{{param.typePlain}} {{param.name}}{% 
 
 {% if existsIn(enumvalue, "details") %}{{enumvalue.details}}{% endif %}
 
+{% if existsIn(enumvalue, "see") -%}
+**See also**: {% if length(enumvalue.see) == 1 %}{{first(enumvalue.see)}}{% else %}
+
+{% for item in enumvalue.see %}  * {{item}}
+{% endfor %}{% endif %}
+
+{% endif -%}
+
+{% if existsIn(enumvalue, "note") -%}
+**Note**: {% if length(enumvalue.note) == 1 %}{{first(enumvalue.note)}}{% else %}
+
+{% for item in enumvalue.note %}  * {{item}}
+{% endfor %}{% endif %}
+{% endif -%}
+
 {% endfor %}
 {% endif -%}
 
