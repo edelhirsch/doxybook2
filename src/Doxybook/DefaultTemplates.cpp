@@ -376,7 +376,8 @@ static std::string createTableForAttributeLike(const std::string& visibility,
 
     ss << "{% for child in " << (inherited ? "base." : "") << key << " -%}\n";
 
-    if(title.find("Subcontrols") != std::string::npos) {
+    if(title.find("Subcontrols") != std::string::npos
+            || title.find("States") != std::string::npos) {
         ss << "| ";
     } else {
         ss << "| {% if existsIn(child, \"type\") %}{{child.type}} {% endif -%}\n";
