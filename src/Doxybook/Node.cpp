@@ -423,7 +423,6 @@ void Doxybook2::Node::finalize(const Config& config,
             reverseSkinletUrl = urlMaker(config, *classForSkinlet->second);
             if (config.linkLowercase)
                 reverseSkinletUrl = Utils::toLower(reverseSkinletUrl);
-            Log::i("@@@ Found class {} {} for skinlet {}", reverseSkinletName, reverseSkinletUrl, refid);
         }
     } else if(!endsWith(refid, "Skinlet") && skinletUrl.empty()) {
         auto skinletId = refid + "Skinlet";
@@ -434,7 +433,6 @@ void Doxybook2::Node::finalize(const Config& config,
             skinletUrl = urlMaker(config, *skinlet->second);
             if (config.linkLowercase)
                 skinletUrl = Utils::toLower(skinletUrl);
-            Log::i("@@@ Found skinlet {} {} for class {}", skinletName, skinletUrl, refid);
         }
     }
 
