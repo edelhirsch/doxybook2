@@ -22,6 +22,7 @@ namespace Doxybook2 {
         struct ClassReference {
             std::string name;
             std::string refid;
+            std::string externalUrl;
             Visibility prot;
             Virtual virt;
             const Node* ptr{nullptr};

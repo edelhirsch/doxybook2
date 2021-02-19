@@ -441,7 +441,11 @@ void Doxybook2::Node::finalize(const Config& config,
         if(baseClass.refid == "") {
             auto name = "class" + baseClass.name;
             auto b = cache.find(name);
-            if(b != cache.end()) {
+            if(b == cache.end()) {
+                if(baseClass.name.find("Q") == 0 && baseClass.name.find("Qsk") == baseClass.name.npos) {
+                    baseClass.externalUrl = "https://doc.qt.io/qt-5/" + Utils::toLower(baseClass.name) + ".html";
+                }
+            } else {
                 baseClass.refid = name;
             }
         }

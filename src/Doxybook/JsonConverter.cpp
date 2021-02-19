@@ -40,6 +40,7 @@ nlohmann::json Doxybook2::JsonConverter::convert(const Node::ClassReference& kla
     if (!klass.refid.empty())
         json["refid"] = klass.refid;
     json["name"] = klass.name;
+    json["externalUrl"] = klass.externalUrl;
     json["visibility"] = toStr(klass.prot);
     json["virtual"] = toStr(klass.virt);
     json["external"] = klass.ptr == nullptr;
