@@ -204,10 +204,9 @@ static const std::string TEMPLATE_DETAILS =
 {% endif -%}
 
 {% if exists("par") %}
-**Par**: {% if length(par) == 1 %}{{first(par)}}{% else %}
-
-{% for item in par %}  * {{item}}
-{% endfor %}{% endif %}
+{% for item in par %}
+{{item}}
+{% endfor %}
 {% endif -%}
 
 {% if exists("rcs") %}
