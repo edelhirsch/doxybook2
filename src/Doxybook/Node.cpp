@@ -489,7 +489,7 @@ void Doxybook2::Node::finalize(const Config& config,
         }
     }
 
-    baseClasses = getAllBaseClasses(cache);
+//    baseClasses = getAllBaseClasses(cache);
 }
 
 Doxybook2::Node::LoadDataResult Doxybook2::Node::loadData(const Config& config,
