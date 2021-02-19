@@ -438,6 +438,17 @@ void Doxybook2::Node::finalize(const Config& config,
         }
     }
 
+    // fix missing class references
+    for(auto& baseClass : baseClasses) {
+        if(baseClass.refid == "") {
+            auto name = "class" + baseClass.name;
+            auto b = cache.find(name);
+            if(b != cache.end()) {
+                baseClass.refid = name;
+            }
+        }
+    }
+
     if (temp) {
         brief = markdownPrinter.print(temp->brief);
         summary = plainPrinter.print(temp->brief);
