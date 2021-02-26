@@ -749,121 +749,173 @@ static const std::string TEMPLATE_NONCLASS_MEMBERS_DETAILS =
 static const std::string TEMPLATE_CLASS_MEMBERS_DETAILS =
     R"({% if exists("publicSubcontrols") %}## Public Subcontrols Documentation
 
-{% for child in publicSubcontrols %}### {{child.kind}} {{child.name}}
+{% for child in publicSubcontrols %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-subcontrol}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("publicStates") %}## Public States Documentation
 
-{% for child in publicStates %}### {{child.kind}} {{child.name}}
+{% for child in publicStates %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-state}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("publicTypes") %}## Public Types Documentation
 
-{% for child in publicTypes %}### {{child.kind}} {{child.name}}
+{% for child in publicTypes %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-type}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("protectedTypes") %}## Protected Types Documentation
 
-{% for child in protectedTypes %}### {{child.kind}} {{child.name}}
+{% for child in protectedTypes %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-type}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("publicFunctions") %}## Public Functions Documentation
 
-{% for child in publicFunctions %}### {{child.kind}} {{child.name}}
+{% for child in publicFunctions %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-function}
 
-{{ render("member_details", child) }}
-{% endfor %}{% endif -%}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
+{% endfor %}
+{% endif -%}
 
 {% if exists("protectedFunctions") %}## Protected Functions Documentation
 
-{% for child in protectedFunctions %}### {{child.kind}} {{child.name}}
+{% for child in protectedFunctions %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-function}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("publicSignals") %}## Public Signals Documentation
 
-{% for child in publicSignals %}### {{child.kind}} {{child.name}}
+{% for child in publicSignals %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-signal}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("protectedSignals") %}## Protected Signals Documentation
 
-{% for child in protectedSignals %}### {{child.kind}} {{child.name}}
+{% for child in protectedSignals %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-signal}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("publicSlots") %}## Public Slots Documentation
 
-{% for child in publicSlots %}### {{child.kind}} {{child.name}}
+{% for child in publicSlots %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-slot}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("protectedSlots") %}## Protected Slots Documentation
 
-{% for child in protectedSlots %}### {{child.kind}} {{child.name}}
+{% for child in protectedSlots %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-slot}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("publicEvents") %}## Public Events Documentation
 
-{% for child in publicEvents %}### {{child.kind}} {{child.name}}
+{% for child in publicEvents %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-event}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("protectedEvents") %}## Protected Events Documentation
 
-{% for child in protectedEvents %}### {{child.kind}} {{child.name}}
+{% for child in protectedEvents %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-event}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("publicProperties") %}## Public Property Documentation
 
-{% for child in publicProperties %}### {{child.kind}} {{child.name}}
+{% for child in publicProperties %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-property}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("protectedProperties") %}## Protected Property Documentation
 
-{% for child in protectedProperties %}### {{child.kind}} {{child.name}}
+{% for child in protectedProperties %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-property}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("publicAttributes") %}## Public Attributes Documentation
 
-{% for child in publicAttributes %}### {{child.kind}} {{child.name}}
+{% for child in publicAttributes %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-attribute}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("protectedAttributes") %}## Protected Attributes Documentation
 
-{% for child in protectedAttributes %}### {{child.kind}} {{child.name}}
+{% for child in protectedAttributes %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-attribute}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%}
 
 {% if exists("friends") %}## Friends
 
-{% for child in friends %}### {{child.kind}} {{child.name}}
+{% for child in friends %}<div class="qskinny-outter-block" markdown="1">### {{child.kind}} {{child.name}}
+{: .qskinny-friend}
 
-{{ render("member_details", child) }}
+<div class="qskinny-inner-block" markdown="1">
+{{ render("member_details", child) }}</div></div>
+
 {% endfor %}{% endif -%})";
 
 static const std::string TEMPLATE_KIND_NONCLASS =
