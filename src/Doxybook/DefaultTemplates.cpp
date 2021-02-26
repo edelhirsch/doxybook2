@@ -959,7 +959,7 @@ static const std::string TEMPLATE_KIND_CLASS =
 
 {%- if exists("baseClasses") %}Inherits from
 {% for child in baseClasses %}{% if existsIn(child, "url") %}[{{child.name}}]({{child.url}})
-{% else if existsIn(child, "externalUrl") %}<a href="{{child.externalUrl}}" style="color: #17a81a" target="_blank">&#x2197; {{child.name}}</a>
+{% else if existsIn(child, "externalUrl") %}<a href="{{child.externalUrl}}" style="color: #17a81a" target="_blank">{{child.name}} &#x2197;</a>
 {% else %}{{child.name}}{% endif %}{% if not loop.is_last %}, {% endif %}{% endfor %}
 
 {% endif -%}
