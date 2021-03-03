@@ -12,12 +12,6 @@ std::string Doxybook2::TextPlainPrinter::print(const XmlTextParser::Node& node) 
 
 void Doxybook2::TextPlainPrinter::print(std::stringstream& ss, const XmlTextParser::Node& node) const {
     switch (node.type) {
-        case XmlTextParser::Node::Type::CODELINE: {
-            auto lineno = node.extra;
-            lineno.insert(lineno.begin(), 4 - lineno.length(), ' ');
-            ss << lineno << ": ";
-            break;
-        }
         case XmlTextParser::Node::Type::TEXT: {
             ss << node.data;
             break;

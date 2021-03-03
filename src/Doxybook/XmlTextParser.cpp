@@ -171,10 +171,6 @@ void Doxybook2::XmlTextParser::traverse(std::vector<Node*> tree, const Xml::Node
                 ptr->extra = e.getAttr("filename", "");
                 break;
             }
-            case Node::Type::CODELINE: {
-                ptr->extra = e.getAttr("lineno", "");
-                break;
-            }
             default: {
                 break;
             }
