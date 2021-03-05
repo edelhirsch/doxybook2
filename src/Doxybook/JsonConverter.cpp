@@ -247,6 +247,8 @@ nlohmann::json Doxybook2::JsonConverter::convert(const Node& node, const Node::D
     }
     if (!data.programlisting.empty()) {
         json["programlisting"] = data.programlisting;
+        json["highlightinstruction"] = "{% highlight cpp %}";
+        json["endhighlightinstruction"] = "{% endhighlight %}";
     }
     if (!data.location.file.empty())
         json["location"] = convert(data.location);

@@ -1016,9 +1016,9 @@ static const std::string TEMPLATE_KIND_FILE =
 
 {% if exists("programlisting")%}## Source code
 
-```cpp
+{{highlightinstruction}}
 {{programlisting}}
-```
+{{endhighlightinstruction}}
 {% endif %}
 
 {% include "footer" %}
