@@ -594,6 +594,7 @@ Doxybook2::Node::Data Doxybook2::Node::loadData(const Config& config,
     if (initializer) {
         data.initializer = markdownPrinter.print(XmlTextParser::parsePara(initializer));
     }
+    data.initializer = ReplaceAll(data.initializer, "|", "\\|");
 
     const auto argsstring = element.firstChildElement("argsstring");
     if (argsstring) {
