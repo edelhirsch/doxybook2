@@ -632,6 +632,7 @@ template <{% for param in templateParams %}{{param.typePlain}} {{param.name}}{% 
 | **{{enumvalue.name}}** | {% if existsIn(enumvalue, "initializer") -%}
 {{replace(enumvalue.initializer, "= ", "")}}{% endif -%}
 {% if existsIn(enumvalue, "brief") %}
+
 {{enumvalue.brief}}{% endif %}
 
 {% if existsIn(enumvalue, "details") %}{{enumvalue.details}}{% endif %}
