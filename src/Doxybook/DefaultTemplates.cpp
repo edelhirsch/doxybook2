@@ -451,7 +451,7 @@ static std::string createTableForFunctionLike(const std::string& visibility,
 
     ss << "{% if child.virtual %}virtual {% endif -%}\n";
     ss << "{% if existsIn(child, \"type\") %}{{child.type}} {% endif -%}\n";
-    ss << "| **[{{child.name}}]({{child.url}})**";
+    ss << "| **[{{child.encodedName}}]({{child.url}})**";
 
     ss << "({% for param in child.params -%}\n";
     ss << "{{param.type}} {{param.name}}";

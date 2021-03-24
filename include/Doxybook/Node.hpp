@@ -153,6 +153,10 @@ namespace Doxybook2 {
             return name;
         }
 
+        const std::string& getEncodedName() const {
+            return encodedName;
+        }
+
         const Node* getParent() const {
             return parent;
         }
@@ -255,6 +259,7 @@ namespace Doxybook2 {
         Type type{Type::NONE};
         std::string refid;
         std::string name;
+        std::string encodedName;
         std::string brief;
         std::string summary;
         std::string title;

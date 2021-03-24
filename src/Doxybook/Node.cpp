@@ -25,6 +25,15 @@ namespace {
             return false;
         }
     }
+
+    std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
+        size_t start_pos = 0;
+        while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+            str.replace(start_pos, from.length(), to);
+            start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+        }
+        return str;
+    }
 }
 
 static Doxybook2::NodePtr findInCache(Doxybook2::NodeCacheMap& cache, const std::string& refid) {
@@ -171,6 +180,7 @@ Doxybook2::NodePtr Doxybook2::Node::parse(Xml::Element& memberdef, const std::st
 
     auto ptr = std::make_shared<Node>(refid);
     ptr->name = assertChild(memberdef, "name").getText();
+    ptr->encodedName = ReplaceAll(ptr->name, "|", "\\|"); // make sure to not mess up markdown tables
     ptr->kind = toEnumKind(memberdef.getAttr("kind"));
     ptr->empty = true;
     ptr->parseBaseInfo(memberdef);

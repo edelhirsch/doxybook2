@@ -96,6 +96,7 @@ nlohmann::json Doxybook2::JsonConverter::convert(const Node& node) const {
         }
     } else {
         json["name"] = node.getName();
+        json["encodedName"] = node.getEncodedName();
         json["title"] = node.getTitle();
     }
     if (!node.isStructured() && node.getKind() != Kind::MODULE && node.getKind() != Kind::DEFINE &&
