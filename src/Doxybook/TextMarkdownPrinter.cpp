@@ -3,6 +3,10 @@
 #include <Doxybook/Utils.hpp>
 #include <fstream>
 #include <sstream>
+#include <string>
+#include <regex>
+
+#include <Doxybook/Log.hpp>
 
 std::string Doxybook2::TextMarkdownPrinter::print(const XmlTextParser::Node& node) const {
     PrintData data;
@@ -13,6 +17,47 @@ std::string Doxybook2::TextMarkdownPrinter::print(const XmlTextParser::Node& nod
     return str;
 }
 
+namespace {
+    std::string formatQtLinks(const std::string& string)
+    {
+        using namespace std;
+        std::string replaced = regex_replace(string, regex(" *\\\\saqt *"), "");
+        vector<std::string> strings;
+        istringstream functionStream(replaced);
+        std::string function;
+        std::string ret = "<br><b>See also in the Qt documentation:</b> ";
+        while(getline(functionStream, function, ',')) {
+            function = regex_replace(function, regex(" "), "");
+            istringstream symbolStream(function);
+            std::string symbol;
+            vector<std::string> symbols;
+            while(getline(symbolStream, symbol, ':')) {
+                symbols.push_back(symbol);
+            }
+            ret += "<a href=\"https://doc.qt.io/qt-5/"
+                    + Doxybook2::Utils::toLower(symbols.at(0))
+                    + ".html";
+            if(symbols.size() > 2) {
+                std::string anchor = symbols.at(2);
+                anchor = regex_replace(anchor, regex("[\\(\\)]"), "");
+                ret += "#" + anchor;
+                if(anchor == symbols.at(2)) // no parentheses
+                {
+                    if(anchor.size() > 0 && std::islower(anchor[0])) {
+                        ret += "-prop";
+                    }
+                    // Otherwise it is an enum value, but those don't
+                    // have an anchor to link to
+                }
+            }
+            ret += "\" style=\"color: #17a81a\" target=\"_blank\">"
+                    + function + " &#x2197;</a>, ";
+        }
+        ret = regex_replace(ret, regex(", $"), "");
+        return ret;
+    }
+}
+
 void Doxybook2::TextMarkdownPrinter::print(PrintData& data,
     const XmlTextParser::Node* parent,
     const XmlTextParser::Node* node,
@@ -21,11 +66,16 @@ void Doxybook2::TextMarkdownPrinter::print(PrintData& data,
 
     switch (node->type) {
         case XmlTextParser::Node::Type::TEXT: {
-            if (config.linkAndInlineCodeAsHTML && data.inComputerOutput) {
-                data.ss << Utils::escape(node->data);
+            if(node->data.find(" \\saqt", 0) == 0) {
+                std::string links = formatQtLinks(node->data);
+                data.ss << links;
             } else {
-                data.ss << node->data;
-            } 
+                if (config.linkAndInlineCodeAsHTML && data.inComputerOutput) {
+                    data.ss << Utils::escape(node->data);
+                } else {
+                    data.ss << node->data;
+                }
+            }
             data.eol = false;
             break;
         }
