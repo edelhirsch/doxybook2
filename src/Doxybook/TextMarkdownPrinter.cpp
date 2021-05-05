@@ -31,6 +31,11 @@ namespace {
         return string.find(" \\saqt", 0) == 0;
     }
 
+    bool isAspectDescription(const std::string& string)
+    {
+        return string == "Aspect";
+    }
+
     std::string parseQtSymbol(const std::string& string) {
         using namespace std;
         std::string ret;
@@ -118,11 +123,13 @@ void Doxybook2::TextMarkdownPrinter::print(PrintData& data,
             if(isSeeAlsoQtReference(node->data)) {
                 std::string link = parseQtSymbols(node->data);
                 data.ss << link;
+            } else if(isAspectDescription(node->data)) {
+                data.ss << "**Aspect**:";
             } else {
                 if (config.linkAndInlineCodeAsHTML && data.inComputerOutput) {
                     data.ss << Utils::escape(node->data);
                 } else {
-                    data.ss << node->data;
+                    data.ss << std::regex_replace(node->data, std::regex("\\|"), "\\|");
                 }
             }
             data.eol = false;
