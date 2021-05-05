@@ -26,13 +26,12 @@ namespace {
         }
     }
 
-    bool isQtReference(const std::string& string)
+    bool isSeeAlsoQtReference(const std::string& string)
     {
-        return (string.find("Q", 0) == 0 && string.find("Qsk", 0) != 0)
-                || (string.find("const Q", 0) == 0 && string.find("const Qsk", 0) != 0);
+        return string.find(" \\saqt", 0) == 0;
     }
 
-    std::string parseSymbol(const std::string& string) {
+    std::string parseQtSymbol(const std::string& string) {
         using namespace std;
         std::string ret;
         std::string symbol = string;
@@ -47,7 +46,7 @@ namespace {
 
         smatch match;
         if(regex_match(symbol, match, regex("(.*)< *(.*) *>"))) { // templates
-            return parseSymbol(match[1]) + "<" + parseSymbol(match[2]) + ">";
+            return parseQtSymbol(match[1]) + "<" + parseQtSymbol(match[2]) + ">";
         }
 
         std::string linkName = symbol;
@@ -85,22 +84,25 @@ namespace {
             suffix = "&";
         }
         ret += "\" style=\"color: #17a81a\" target=\"_blank\">"
-                + linkName + "</a>" + suffix + ", ";
+                + linkName + " &#x2197;</a>" + suffix + ", ";
 
         return ret;
     }
 
-    std::string parseSymbols(const std::string& string)
+    std::string parseQtSymbols(const std::string& string)
     {
         using namespace std;
+        std::string stringToParse = string;
+        stringToParse = regex_replace(stringToParse, regex("^ *\\\\saqt *"), "");
         vector<std::string> strings;
-        istringstream symbolStream(string);
+        istringstream symbolStream(stringToParse);
         std::string symbol;
-        std::string ret;
+        std::string ret = "\n<p><b>See also in the Qt documentation:</b> ";
         while(getline(symbolStream, symbol, ',')) {
-            ret += parseSymbol(symbol);
+            ret += parseQtSymbol(symbol);
         }
         ret = regex_replace(ret, regex(", $"), "");
+        ret += "</p>";
         return ret;
     }
 }
@@ -113,8 +115,8 @@ void Doxybook2::TextMarkdownPrinter::print(PrintData& data,
 
     switch (node->type) {
         case XmlTextParser::Node::Type::TEXT: {
-            if(isQtReference(node->data)) {
-                std::string link = parseSymbols(node->data);
+            if(isSeeAlsoQtReference(node->data)) {
+                std::string link = parseQtSymbols(node->data);
                 data.ss << link;
             } else {
                 if (config.linkAndInlineCodeAsHTML && data.inComputerOutput) {
