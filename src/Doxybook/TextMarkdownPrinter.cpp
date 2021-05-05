@@ -18,40 +18,87 @@ std::string Doxybook2::TextMarkdownPrinter::print(const XmlTextParser::Node& nod
 }
 
 namespace {
-    std::string formatQtLinks(const std::string& string)
+    bool endsWith(std::string const &fullString, std::string const &ending) {
+        if (fullString.length() >= ending.length()) {
+            return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+        } else {
+            return false;
+        }
+    }
+
+    bool isQtReference(const std::string& string)
+    {
+        return (string.find("Q", 0) == 0 && string.find("Qsk", 0) != 0)
+                || (string.find("const Q", 0) == 0 && string.find("const Qsk", 0) != 0);
+    }
+
+    std::string parseSymbol(const std::string& string) {
+        using namespace std;
+        std::string ret;
+        std::string symbol = string;
+        std::string prefix = "";
+
+        if(symbol.find("const ", 0) == 0) {
+            symbol = regex_replace(symbol, regex("^const "), "");
+            prefix = "const ";
+        }
+
+        symbol = regex_replace(symbol, regex(" "), "");
+
+        smatch match;
+        if(regex_match(symbol, match, regex("(.*)< *(.*) *>"))) { // templates
+            return parseSymbol(match[1]) + "<" + parseSymbol(match[2]) + ">";
+        }
+
+        std::string linkName = symbol;
+        std::string suffix = "";
+        symbol = regex_replace(symbol, regex("\\*"), "");
+        symbol = regex_replace(symbol, regex("\\&"), "");
+        istringstream symbolStream(symbol);
+        std::string token;
+        vector<std::string> symbols;
+        while(getline(symbolStream, token, ':')) {
+            symbols.push_back(token);
+        }
+        ret += prefix + "<a href=\"https://doc.qt.io/qt-5/"
+                + Doxybook2::Utils::toLower(symbols.at(0))
+                + ".html";
+        if(symbols.size() > 2) {
+            std::string anchor = symbols.at(2);
+            anchor = regex_replace(anchor, regex("[\\(\\)]"), "");
+            ret += "#" + anchor;
+            if(anchor == symbols.at(2)) // no parentheses
+            {
+                if(anchor.size() > 0 && std::islower(anchor[0])) {
+                    ret += "-prop";
+                } else {
+                    ret += "-enum";
+                }
+                // Otherwise it is an enum value, but those don't
+                // have an anchor to link to
+            }
+        } else if(endsWith(linkName, "*")) {
+            linkName = regex_replace(linkName, regex("\\*"), "");
+            suffix = "*";
+        } else if(endsWith(linkName, "&")) {
+            linkName = regex_replace(linkName, regex("&"), "");
+            suffix = "&";
+        }
+        ret += "\" style=\"color: #17a81a\" target=\"_blank\">"
+                + linkName + "</a>" + suffix + ", ";
+
+        return ret;
+    }
+
+    std::string parseSymbols(const std::string& string)
     {
         using namespace std;
-        std::string replaced = regex_replace(string, regex(" *\\\\saqt *"), "");
         vector<std::string> strings;
-        istringstream functionStream(replaced);
-        std::string function;
-        std::string ret = "<br><b>See also in the Qt documentation:</b> ";
-        while(getline(functionStream, function, ',')) {
-            function = regex_replace(function, regex(" "), "");
-            istringstream symbolStream(function);
-            std::string symbol;
-            vector<std::string> symbols;
-            while(getline(symbolStream, symbol, ':')) {
-                symbols.push_back(symbol);
-            }
-            ret += "<a href=\"https://doc.qt.io/qt-5/"
-                    + Doxybook2::Utils::toLower(symbols.at(0))
-                    + ".html";
-            if(symbols.size() > 2) {
-                std::string anchor = symbols.at(2);
-                anchor = regex_replace(anchor, regex("[\\(\\)]"), "");
-                ret += "#" + anchor;
-                if(anchor == symbols.at(2)) // no parentheses
-                {
-                    if(anchor.size() > 0 && std::islower(anchor[0])) {
-                        ret += "-prop";
-                    }
-                    // Otherwise it is an enum value, but those don't
-                    // have an anchor to link to
-                }
-            }
-            ret += "\" style=\"color: #17a81a\" target=\"_blank\">"
-                    + function + " &#x2197;</a>, ";
+        istringstream symbolStream(string);
+        std::string symbol;
+        std::string ret;
+        while(getline(symbolStream, symbol, ',')) {
+            ret += parseSymbol(symbol);
         }
         ret = regex_replace(ret, regex(", $"), "");
         return ret;
@@ -66,9 +113,9 @@ void Doxybook2::TextMarkdownPrinter::print(PrintData& data,
 
     switch (node->type) {
         case XmlTextParser::Node::Type::TEXT: {
-            if(node->data.find(" \\saqt", 0) == 0) {
-                std::string links = formatQtLinks(node->data);
-                data.ss << links;
+            if(isQtReference(node->data)) {
+                std::string link = parseSymbols(node->data);
+                data.ss << link;
             } else {
                 if (config.linkAndInlineCodeAsHTML && data.inComputerOutput) {
                     data.ss << Utils::escape(node->data);
